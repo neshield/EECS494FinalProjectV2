@@ -208,13 +208,13 @@ public class PlayerObjectNathan2 : MonoBehaviour {
 		float pushPullScaling = 5.0f;
 		if(bs){
 			if(bs.getBulletType() == bulletType.PULL){
-				Vector3 diff = transform.position - PlayerObjectNathan.P.transform.position;
+				Vector3 diff = transform.position - bs.getPlayerRef().transform.position;
 				diff = diff.normalized * pushPullScaling;
 				this.velocity +=new Vector3(diff.x, diff.y, diff.z);
 				Destroy(other.gameObject);
 			}
 			else if(bs.getBulletType() == bulletType.PUSH){
-				Vector3 diff = PlayerObjectNathan.P.transform.position - transform.position;
+				Vector3 diff = bs.getPlayerRef().transform.position - transform.position;
 				diff = diff.normalized * pushPullScaling;
 				this.velocity += new Vector3(diff.x, diff.y * 2, diff.z);
 				Destroy(other.gameObject);	

@@ -13,6 +13,6 @@ G G G G G 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 G G G G G
 G S 0 0 0 0 0 0 0 0 0 0 0 G G G G G G 0 0 0 0 0 0 0 0 0 0 S G
 G S 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 S G
 G S 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 S G
-G G G G G G G G G G G G G 0 0 0 0 0 0 G G G G G G G G G G G G
+G G G G G G G G G G G G G G G G G G G G G G G G G G G G G G G
 G G G G G G G G G G G G G S S S S S S G G G G G G G G G G G G
 G G G G G G G G G G G G G G G G G G G G G G G G G G G G G G G

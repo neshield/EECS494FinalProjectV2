@@ -14,10 +14,14 @@ public class BulletScript : MonoBehaviour {
 	private Vector3 origPosition;
 	private float maxDistance;
 	
-	private PlayerObjectNathan playerRef;
+	private PlayerObject playerRef;
 	
-	public void setPlayerRef(PlayerObjectNathan playerRef_){
+	public void setPlayerRef(PlayerObject playerRef_){
 		playerRef = playerRef_;
+	}
+
+	public PlayerObject getPlayerRef(){
+		return playerRef;
 	}
 
 	
@@ -51,7 +55,7 @@ public class BulletScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		origPosition = transform.position;
-		maxDistance = 100;
+		maxDistance = 50;
 	}
 	
 	// Update is called once per frame
