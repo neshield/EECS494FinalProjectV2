@@ -66,6 +66,8 @@ public class PlayerObject : MonoBehaviour {
 
 		forcedVelFrameCounter = 0;
 
+
+		spawnPos = this.transform.position;
 		aimVector.x = 0f;
 		aimVector.y = 1f;
 		aimVector.z = 0f;
@@ -96,7 +98,7 @@ public class PlayerObject : MonoBehaviour {
 		
 		aimVector.Normalize();
 		
-		aimVector = aimVector * 25.0f;
+		aimVector = aimVector * 35.0f;
 
 		//SCOTT AND MATT
 		if(inputDevice.LeftTrigger.WasPressed){
@@ -131,7 +133,7 @@ public class PlayerObject : MonoBehaviour {
 	void FixedUpdate(){
 		if(playing){
 			//Handle the x movement
-			controlledVelocity.x = 4.0f * inputDevice.LeftStickX.Value;
+			controlledVelocity.x = 6.0f * inputDevice.LeftStickX.Value;
 			
 			//Apply walls
 			if(rightWallList.Count != 0 && controlledVelocity.x > 0){
