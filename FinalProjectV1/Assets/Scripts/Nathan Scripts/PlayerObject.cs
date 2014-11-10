@@ -142,7 +142,7 @@ public class PlayerObject : MonoBehaviour {
 
 	void FixedUpdate(){
 		if(playing){
-
+			/*
 			//Stuff Used for FSM//////////////////////////////
 			move_FSM_val = inputDevice.LeftStickX.Value;
 			anim.SetFloat("XSpeed", Mathf.Abs(move_FSM_val));
@@ -156,7 +156,7 @@ public class PlayerObject : MonoBehaviour {
 				Flip();
 			}
 
-
+			*/
 			//Handle the x movement
 			controlledVelocity.x = 6.0f * inputDevice.LeftStickX.Value;
 			
@@ -438,10 +438,13 @@ public class PlayerObject : MonoBehaviour {
 			if(lives <= 0){
 				switch(Application.loadedLevel){
 				case 0:
-					Application.LoadLevel(1);
+					Application.LoadLevel(2);
 					break;
 				case 1:
 					Application.LoadLevel(0);
+					break;
+				case 2:
+					Application.LoadLevel(1);
 					break;
 				}
 			}
