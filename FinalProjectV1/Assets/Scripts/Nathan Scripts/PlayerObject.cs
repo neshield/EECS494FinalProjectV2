@@ -48,6 +48,7 @@ public class PlayerObject : MonoBehaviour {
 
 	bool jumpQueued;
 
+	private int lives;
 
 	//SCOTT AND MATT SHOOTING STUFF
 	public GameObject leftBullet;
@@ -85,6 +86,8 @@ public class PlayerObject : MonoBehaviour {
 		}
 
 		jumpQueued = false;
+
+		lives = 3;
 	}
 	
 	// Update is called once per frame
@@ -416,7 +419,23 @@ public class PlayerObject : MonoBehaviour {
 
 	void HandleSpikeCollision(Collider other){
 		if (other.gameObject.tag == "spike") {
+			print (lives);
+			lives--;
+			//GameObject p1Lives = GameObject.Find("p1Lives");
+			//GUIText t = p1Lives.GetComponent<GUIText>();
+			//t.text = "P" + playerNum + " Lives: " + lives;
 			Die ();
+
+			if(lives <= 0){
+				switch(Application.loadedLevel){
+				case 0:
+					Application.LoadLevel(1);
+					break;
+				case 1:
+					Application.LoadLevel(0);
+					break;
+				}
+			}
 		} else {
 			return;
 		}
