@@ -7,6 +7,10 @@ using InControl;
 public class PlayerObject : MonoBehaviour {
 	static public PlayerObject P;
 
+	Animator anim;
+	public float move_FSM_val;
+	public bool facingRight;
+
 	public int playerNum;
 	
 	public Vector3 startPosition;
@@ -44,6 +48,7 @@ public class PlayerObject : MonoBehaviour {
 
 	bool jumpQueued;
 
+	private int lives;
 
 	//SCOTT AND MATT SHOOTING STUFF
 	public GameObject leftBullet;
@@ -56,6 +61,9 @@ public class PlayerObject : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
+		spawnPos = this.transform.position;
+
 		P = this;
 
 		inputDevice = (InputManager.Devices.Count > playerNum) ? InputManager.Devices[playerNum] : null;
@@ -71,12 +79,13 @@ public class PlayerObject : MonoBehaviour {
 		controlledVelocity = Vector3.zero;
 		
 		forcedVelFrameCounter = 0;
-		
 		aimVector.x = 0f;
 		aimVector.y = 1f;
 		aimVector.z = 0f;
 
 		jumpQueued = false;
+
+		lives = 3;
 	}
 	
 	// Update is called once per frame
@@ -97,7 +106,7 @@ public class PlayerObject : MonoBehaviour {
 		
 		aimVector.Normalize();
 		
-		aimVector = aimVector * 25.0f;
+		aimVector = aimVector * 35.0f;
 
 		//SCOTT AND MATT
 		if(inputDevice.LeftTrigger.WasPressed){
@@ -133,8 +142,23 @@ public class PlayerObject : MonoBehaviour {
 
 	void FixedUpdate(){
 		if(playing){
+
+			//Stuff Used for FSM//////////////////////////////
+			move_FSM_val = inputDevice.LeftStickX.Value;
+			anim.SetFloat("XSpeed", Mathf.Abs(move_FSM_val));
+			anim.SetFloat("YSpeed", this.rigidbody.velocity.y);
+			///////////////////////////////////////////////////
+			
+			if(move_FSM_val > 0 && !facingRight){
+				Flip();
+			}
+			else if(move_FSM_val < 0 && facingRight){
+				Flip();
+			}
+
+
 			//Handle the x movement
-			controlledVelocity.x = 4.0f * inputDevice.LeftStickX.Value;
+			controlledVelocity.x = 6.0f * inputDevice.LeftStickX.Value;
 			
 			//Apply walls
 			if(rightWallList.Count != 0 && controlledVelocity.x > 0){
@@ -404,7 +428,23 @@ public class PlayerObject : MonoBehaviour {
 
 	void HandleSpikeCollision(Collider other){
 		if (other.gameObject.tag == "spike") {
+			print (lives);
+			lives--;
+			//GameObject p1Lives = GameObject.Find("p1Lives");
+			//GUIText t = p1Lives.GetComponent<GUIText>();
+			//t.text = "P" + playerNum + " Lives: " + lives;
 			Die ();
+
+			if(lives <= 0){
+				switch(Application.loadedLevel){
+				case 0:
+					Application.LoadLevel(1);
+					break;
+				case 1:
+					Application.LoadLevel(0);
+					break;
+				}
+			}
 		} else {
 			return;
 		}
@@ -416,7 +456,14 @@ public class PlayerObject : MonoBehaviour {
 	}
 	
 	//ACTIONS
-	
+	public void Flip(){
+		facingRight = !facingRight;
+		Vector3 theScale = transform.localScale;
+		theScale.x *= -1;
+		transform.localScale = theScale;
+	}
+
+
 	public void Jump(){
 		controlledVelocity.y += jumpSpeed;
 	}
