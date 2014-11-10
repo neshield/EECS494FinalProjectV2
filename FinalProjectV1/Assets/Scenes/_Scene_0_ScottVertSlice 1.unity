@@ -373,7 +373,7 @@ Transform:
   m_PrefabInternal: {fileID: 158742531}
   m_GameObject: {fileID: 79304109}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.5, y: 4.5, z: 0}
+  m_LocalPosition: {x: 4.5, y: 4.5, z: -1.12260437}
   m_LocalScale: {x: 2, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -842,7 +842,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 031459751b47cc348b7dcb3fb0f84971, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -1.12260437
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 031459751b47cc348b7dcb3fb0f84971, type: 2}
       propertyPath: m_LocalRotation.x
@@ -2054,7 +2054,7 @@ MonoBehaviour:
   groundList: []
   leftWallList: []
   rightWallList: []
-  bullet: {fileID: 100000, guid: bd2076656c76e764ca7cf3ae419efa65, type: 2}
+  bullet: {fileID: 100000, guid: 4af71542213054d499aea7137b09fbe2, type: 2}
   leftBullet: {fileID: 100000, guid: 730ea3952ee3f4d359f1f08be6f9df14, type: 2}
   rightBullet: {fileID: 100000, guid: 20db75dc073134b7c879b8bece812429, type: 2}
   jumpBullet: {fileID: 100000, guid: 28ec9cea660274ad38476c7977e184c8, type: 2}
@@ -3623,6 +3623,10 @@ Prefab:
       propertyPath: playerNum
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 6b0eee574d2ab7e499005c968689e1c8, type: 2}
+      propertyPath: bullet
+      value: 
+      objectReference: {fileID: 100000, guid: 4af71542213054d499aea7137b09fbe2, type: 2}
     m_RemovedComponents:
     - {fileID: 9500000, guid: 6b0eee574d2ab7e499005c968689e1c8, type: 2}
     - {fileID: 21200000, guid: 6b0eee574d2ab7e499005c968689e1c8, type: 2}
@@ -4757,7 +4761,7 @@ MonoBehaviour:
   groundList: []
   leftWallList: []
   rightWallList: []
-  bullet: {fileID: 100000, guid: bd2076656c76e764ca7cf3ae419efa65, type: 2}
+  bullet: {fileID: 100000, guid: 4af71542213054d499aea7137b09fbe2, type: 2}
   leftBullet: {fileID: 100000, guid: 730ea3952ee3f4d359f1f08be6f9df14, type: 2}
   rightBullet: {fileID: 100000, guid: 20db75dc073134b7c879b8bece812429, type: 2}
   jumpBullet: {fileID: 100000, guid: 28ec9cea660274ad38476c7977e184c8, type: 2}
@@ -5276,6 +5280,10 @@ Prefab:
       propertyPath: m_Name
       value: Player0
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 6b0eee574d2ab7e499005c968689e1c8, type: 2}
+      propertyPath: bullet
+      value: 
+      objectReference: {fileID: 100000, guid: 4af71542213054d499aea7137b09fbe2, type: 2}
     m_RemovedComponents:
     - {fileID: 21200000, guid: 6b0eee574d2ab7e499005c968689e1c8, type: 2}
     - {fileID: 9500000, guid: 6b0eee574d2ab7e499005c968689e1c8, type: 2}

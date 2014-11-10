@@ -225,8 +225,10 @@ public class PlayerObject : MonoBehaviour {
 		}
 		Vector3 groundForce = Vector3.zero;
 		groundForce.y = -velocity.y;
-		velocity += groundForce;
+		//velocity += groundForce;
+		velocity.y = 0.0f;
 		controlledVelocity.y = 0.0f;
+		forcedVelocity.y = 0.0f;
 		hitGroundTimer = 10;
 	}
 	
