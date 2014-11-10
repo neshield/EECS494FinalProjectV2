@@ -7,6 +7,10 @@ using InControl;
 public class PlayerObject : MonoBehaviour {
 	static public PlayerObject P;
 
+	Animator anim;
+	public float move_FSM_val;
+	public bool facingRight;
+
 	public int playerNum;
 	
 	public Vector3 startPosition;
@@ -56,6 +60,9 @@ public class PlayerObject : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
+		spawnPos = this.transform.position;
+
 		P = this;
 		RestoreDefaults ();
 		playing = true;
@@ -130,6 +137,21 @@ public class PlayerObject : MonoBehaviour {
 
 	void FixedUpdate(){
 		if(playing){
+
+			//Stuff Used for FSM//////////////////////////////
+			move_FSM_val = inputDevice.LeftStickX.Value;
+			anim.SetFloat("XSpeed", Mathf.Abs(move_FSM_val));
+			anim.SetFloat("YSpeed", this.rigidbody.velocity.y);
+			///////////////////////////////////////////////////
+			
+			if(move_FSM_val > 0 && !facingRight){
+				Flip();
+			}
+			else if(move_FSM_val < 0 && facingRight){
+				Flip();
+			}
+
+
 			//Handle the x movement
 			controlledVelocity.x = 4.0f * inputDevice.LeftStickX.Value;
 			
@@ -404,7 +426,14 @@ public class PlayerObject : MonoBehaviour {
 	}
 	
 	//ACTIONS
-	
+	public void Flip(){
+		facingRight = !facingRight;
+		Vector3 theScale = transform.localScale;
+		theScale.x *= -1;
+		transform.localScale = theScale;
+	}
+
+
 	public void Jump(){
 		controlledVelocity.y += jumpSpeed;
 	}
