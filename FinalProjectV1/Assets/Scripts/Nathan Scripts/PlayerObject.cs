@@ -25,7 +25,7 @@ public class PlayerObject : MonoBehaviour {
 	bool ________________________________________;
 	//Physics stuff
 	private int hitGroundTimer = 0;
-	private Vector3 spawnPos = new Vector3(19.6f, 7.1f, 0.0f);
+	private Vector3 spawnPos;// = new Vector3(19.6f, 7.1f, 0.0f);
 	private Vector3 forcedVelocity;
 	private int forcedVelFrameCounter;
 	private float forcedVelAbsMax;
@@ -57,23 +57,24 @@ public class PlayerObject : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		P = this;
-		RestoreDefaults ();
-		playing = true;
-
-		forcedVelocity = Vector3.zero;
-		forcedVelAbsMax = 11.0f;
-		controlledVelocity = Vector3.zero;
-
-		forcedVelFrameCounter = 0;
-
-		aimVector.x = 0f;
-		aimVector.y = 1f;
-		aimVector.z = 0f;
 
 		inputDevice = (InputManager.Devices.Count > playerNum) ? InputManager.Devices[playerNum] : null;
 		if(inputDevice == null){
 			Destroy(this.gameObject);
 		}
+
+		RestoreDefaults ();
+		playing = true;
+		spawnPos = this.transform.position;
+		forcedVelocity = Vector3.zero;
+		forcedVelAbsMax = 11.0f;
+		controlledVelocity = Vector3.zero;
+		
+		forcedVelFrameCounter = 0;
+		
+		aimVector.x = 0f;
+		aimVector.y = 1f;
+		aimVector.z = 0f;
 
 		jumpQueued = false;
 	}
@@ -114,7 +115,9 @@ public class PlayerObject : MonoBehaviour {
 		else if(inputDevice.RightTrigger.WasPressed){
 			currentBullet = Instantiate (bullet) as GameObject;
 			BulletScript obj = currentBullet.GetComponent<BulletScript>();
-			
+
+			print (obj);
+
 			obj.setPlayerRef(this);
 			obj.setPush();
 
@@ -249,6 +252,15 @@ public class PlayerObject : MonoBehaviour {
 			}
 			if(forcedVelocity.y < -forcedVelAbsMax){
 				forcedVelocity.y = -forcedVelAbsMax;
+			}
+			if(groundList.Count != 0 && forcedVelocity.y < 0){
+				forcedVelocity.y = 0.0f;
+			}
+			if(rightWallList.Count != 0 && forcedVelocity.x > 0){
+				forcedVelocity.x = 0.0f;
+			}
+			if(leftWallList.Count != 0 && forcedVelocity.x < 0){
+				forcedVelocity.x = 0.0f;
 			}
 		}
 	}

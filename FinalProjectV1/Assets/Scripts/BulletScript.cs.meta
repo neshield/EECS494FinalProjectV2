@@ -2,7 +2,10 @@ fileFormatVersion: 2
 guid: 50ec537fcd27fe84fb103d994bff63f1
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - pushMat: {fileID: 2100000, guid: b48be6c3fdd3948749124b944de4a997, type: 2}
+  - pullMat: {fileID: 2100000, guid: de7e192a17eb64fbb890c85e9ec0955f, type: 2}
+  - jumpMat: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -34,7 +34,7 @@ public class TunnelScript : MonoBehaviour {
 				pairedTunnel.setSpawnLocation(
 					new Vector3(pairedTunnel.spawnLocation.x, 
 				            	//pon.transform.position.y, 
-				            	pos.y,
+				            	pos.y + 0.05f,
 				            	pairedTunnel.spawnLocation.z)
 					);
 			}

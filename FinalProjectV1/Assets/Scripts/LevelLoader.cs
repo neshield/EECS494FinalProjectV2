@@ -28,7 +28,7 @@ public class LevelLoader : MonoBehaviour {
 		allObjs = new List<GameObject> ();
 		levelFileList = new List<string> ();
 		
-		levelFileList.Add ("EmptyLevel");
+		levelFileList.Add ("Level1");
 		
 		levelToLoad = 0;
 		loadLevel ();
