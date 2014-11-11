@@ -1,0 +1,90 @@
+Soemtimes people fall through floor/tunels and don't come back out (matt)
+Lazer sight could be helpful!
+Projectiles last a little bit too long
+Pulling feels snowbally, if you hit the person once you can just keep hitting them until they die
+Random spawn points
+Invulnerability after spawn!!!!
+bottom left tunnel on nathan is broken
+3 lives feels okay per level
+Snowbally to the point of cheap. First few hits feel good/respondable, eventually you just have too much control
+	Slower rate of fire, higher effect
+
+Horizontal kills feels easier than vertical, vertical hazards feel like jump warnings
+	Pull someone into a pit was good, pull upwards was hard
+
+Semi - auto feels good for now
+
+Sometimes falling through floor
+
+Pulling through tunnel should reverse effect
+
+A might be better for jumping, but people got used to
+	Some people found it awkward, some thought it was good
+
+"is there a jump"
+
+cover could be helpful
+
+Visual indicator of what's push and pull
+
+Aiming is too fine grain
+
+Sometimes you hit the spikes when you aren't expecting to, spikes too low to the ground maybe
+
+Jumping is too high
+
+Bullets are hard to track with your eyes, animation is a little choppy
+
+Hitting people over long distances is a little too hard
+
+Different weapons could be pretty cool
+
+Variable height jumps!
+
+Samus style charge shots
+
+jump should be up shots not intuitive that right is pull and left is push
+
+bullets are too weak and nothing really happens.
+
+too weak of a force
+Should be bigger for four player
+
+Ammo maybe?
+
+Add a jump bullet
+
+People can move through the vertical part of the crosslike platforms  nathan level, sometimes fall through floor / corners
+
+Jump should be variable
+
+the force needs to be stronger, literally yank someone in a direction.
+
+thinks it should be right is to push and left is to pull.
+
+teleports are a little fucked up
+
+arrow around your person.
+
+players jitter, about to fall through the floor.
+
+too hard to hit someone, wayyy too hard. 
+
+respawn is fucked up. 
+
+people are dying from moving, not from eachother. 
+
+should fling you in a direction when you get hit, not just offset you. 
+
+hard to aim
+
+hold the button and then aim, eh, not down.
+
+people keep just jumping into lava.
+
+jump button is natural on A.
+
+**we can make jump A and Left Bumper.
+
+arrow around so you can see where ur aiming
+

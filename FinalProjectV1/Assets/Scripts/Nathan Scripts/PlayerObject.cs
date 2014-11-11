@@ -242,6 +242,7 @@ public class PlayerObject : MonoBehaviour {
 		}
 	}
 
+	//Looks like the pull and push are switched herece
 	void HandleBulletCollision(Collider other){
 		BulletScript bs = other.GetComponent<BulletScript> ();
 		if(bs && (bs.getPlayerRef() != this)){
