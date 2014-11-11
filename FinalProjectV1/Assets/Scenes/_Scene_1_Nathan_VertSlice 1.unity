@@ -3215,7 +3215,7 @@ MonoBehaviour:
   groundList: []
   leftWallList: []
   rightWallList: []
-  bullet: {fileID: 100000, guid: bd2076656c76e764ca7cf3ae419efa65, type: 2}
+  bullet: {fileID: 100000, guid: 4af71542213054d499aea7137b09fbe2, type: 2}
   leftBullet: {fileID: 100000, guid: 730ea3952ee3f4d359f1f08be6f9df14, type: 2}
   rightBullet: {fileID: 100000, guid: 20db75dc073134b7c879b8bece812429, type: 2}
   jumpBullet: {fileID: 100000, guid: 28ec9cea660274ad38476c7977e184c8, type: 2}
@@ -3325,6 +3325,10 @@ Prefab:
       propertyPath: playerNum
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 6b0eee574d2ab7e499005c968689e1c8, type: 2}
+      propertyPath: bullet
+      value: 
+      objectReference: {fileID: 100000, guid: 4af71542213054d499aea7137b09fbe2, type: 2}
     m_RemovedComponents:
     - {fileID: 9500000, guid: 6b0eee574d2ab7e499005c968689e1c8, type: 2}
     - {fileID: 21200000, guid: 6b0eee574d2ab7e499005c968689e1c8, type: 2}
@@ -3691,7 +3695,7 @@ MonoBehaviour:
   groundList: []
   leftWallList: []
   rightWallList: []
-  bullet: {fileID: 100000, guid: bd2076656c76e764ca7cf3ae419efa65, type: 2}
+  bullet: {fileID: 100000, guid: 4af71542213054d499aea7137b09fbe2, type: 2}
   leftBullet: {fileID: 100000, guid: 730ea3952ee3f4d359f1f08be6f9df14, type: 2}
   rightBullet: {fileID: 100000, guid: 20db75dc073134b7c879b8bece812429, type: 2}
   jumpBullet: {fileID: 100000, guid: 28ec9cea660274ad38476c7977e184c8, type: 2}
@@ -5339,7 +5343,7 @@ Prefab:
     - target: {fileID: 11400000, guid: 6b0eee574d2ab7e499005c968689e1c8, type: 2}
       propertyPath: bullet
       value: 
-      objectReference: {fileID: 100000, guid: bd2076656c76e764ca7cf3ae419efa65, type: 2}
+      objectReference: {fileID: 100000, guid: 4af71542213054d499aea7137b09fbe2, type: 2}
     - target: {fileID: 5400000, guid: 6b0eee574d2ab7e499005c968689e1c8, type: 2}
       propertyPath: m_UseGravity
       value: 0
