@@ -5,8 +5,6 @@ using InControl;
 
 
 public class PlayerObject : MonoBehaviour {
-	static public PlayerObject P;
-
 	Animator anim;
 	public float move_FSM_val;
 	public bool facingRight;
@@ -58,11 +56,13 @@ public class PlayerObject : MonoBehaviour {
 
 	private InputDevice inputDevice;
 
+	private bool invincible;
+	private int invincibleCounter;
+	private int deadCounter;
+
 	// Use this for initialization
 	void Start () {
 		spawnPos = this.transform.position;
-
-		P = this;
 
 		inputDevice = (InputManager.Devices.Count > playerNum) ? InputManager.Devices[playerNum] : null;
 		if(inputDevice == null){
@@ -82,6 +82,9 @@ public class PlayerObject : MonoBehaviour {
 		aimVector.z = 0f;
 
 		jumpQueued = false;
+
+		invincibleCounter = 50;
+		invincible = true;
 
 		lives = 3;
 	}
@@ -155,6 +158,16 @@ public class PlayerObject : MonoBehaviour {
 			}
 
 			*/
+			//Handle invincibility
+			if(invincible){
+				invincibleCounter--;
+				if(invincibleCounter <= 0){
+					invincible = false;
+					print ("no longer invincible");
+					invincibleCounter = 100;
+				}
+			}
+
 			//Handle the x movement
 			controlledVelocity.x = 6.0f * inputDevice.LeftStickX.Value;
 			
@@ -237,24 +250,32 @@ public class PlayerObject : MonoBehaviour {
 		}
 	}
 
-	//Looks like the pull and push are switched herece
 	void HandleBulletCollision(Collider other){
 		BulletScript bs = other.GetComponent<BulletScript> ();
 		if(bs && (bs.getPlayerRef() != this)){
+			bulletType bType = bs.getBulletType();
+
+			//If you're invincible, destroy the object and don't move
+			if(invincible){
+				Destroy(other.gameObject);
+				return;
+			}
+
 			float pushPullScaling = 5.0f;
-			if(bs.getBulletType() == bulletType.PUSH){
+
+			if(bType == bulletType.PUSH){
 				Vector3 diff = transform.position - bs.getPlayerRef().transform.position;
 				diff = diff.normalized * pushPullScaling;
 				forcedVelocity += new Vector3(diff.x, diff.y, diff.z);
 				Destroy(other.gameObject);
 			}
-			else if(bs.getBulletType() == bulletType.PULL){
+			else if(bType == bulletType.PULL){
 				Vector3 diff = bs.getPlayerRef().transform.position - transform.position;
 				diff = diff.normalized * pushPullScaling;
 				forcedVelocity += new Vector3(diff.x, diff.y * 2, diff.z);
 				Destroy(other.gameObject);	
 			}
-			else if(bs.getBulletType() == bulletType.JUMP){
+			else if(bType == bulletType.JUMP){
 				forcedVelocity += new Vector3(0,16,0);
 				Destroy(other.gameObject);
 			}
@@ -421,12 +442,17 @@ public class PlayerObject : MonoBehaviour {
 
 	void HandleSpikeCollision(Collider other){
 		if (other.gameObject.tag == "spike") {
-			print (lives);
+
+			//If you're invincible, dont die!
+			if(invincible){
+				return;
+			}
+
 			lives--;
 			//GameObject p1Lives = GameObject.Find("p1Lives");
 			//GUIText t = p1Lives.GetComponent<GUIText>();
 			//t.text = "P" + playerNum + " Lives: " + lives;
-			Die ();
+			//Die ();
 
 			if(lives <= 0){
 				switch(Application.loadedLevel){
@@ -440,6 +466,8 @@ public class PlayerObject : MonoBehaviour {
 					Application.LoadLevel(1);
 					break;
 				}
+			} else {
+				Die();
 			}
 		} else {
 			return;
@@ -447,8 +475,18 @@ public class PlayerObject : MonoBehaviour {
 	}
 
 	void Die(){
+		//Run Death Animation
+
+		//deadCounter = 50;
+		//this.transform.position = spawnPos;
+		//RestoreDefaults ();
+		Respawn ();
+	}
+
+	void Respawn(){
 		this.transform.position = spawnPos;
 		RestoreDefaults ();
+		invincible = true;
 	}
 	
 	//ACTIONS
