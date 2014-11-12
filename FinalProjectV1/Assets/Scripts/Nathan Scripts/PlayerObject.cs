@@ -16,8 +16,7 @@ public class PlayerObject : MonoBehaviour {
 	public Vector3 startPosition;
 	public Vector3 velocity;
 	private float jumpSpeed = 18.0f;
-	private static Vector3 playerGravity = new Vector3(0.0f, -35.0f, 0.0f);
-	
+
 	public bool playing;
 	
 	public List<Collider> groundList;
@@ -27,14 +26,14 @@ public class PlayerObject : MonoBehaviour {
 	public GameObject bullet;
 	
 	bool ________________________________________;
-	//Physics stuff
-	private int hitGroundTimer = 0;
-	private Vector3 spawnPos;// = new Vector3(19.6f, 7.1f, 0.0f);
+
+	private Vector3 spawnPos;
 	private Vector3 forcedVelocity;
 	private int forcedVelFrameCounter;
 	private float forcedVelAbsMax;
 	private Vector3 controlledVelocity;
-	
+	private static Vector3 playerGravity = new Vector3(0.0f, -35.0f, 0.0f);
+
 	Vector3	curGroundRightCornerPos;
 	Vector3 curGroundLeftCornerPos;
 	Vector3 prevGroundLeftCornerPos;
@@ -61,7 +60,6 @@ public class PlayerObject : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
 		spawnPos = this.transform.position;
 
 		P = this;
@@ -96,7 +94,7 @@ public class PlayerObject : MonoBehaviour {
 
 		//Get aim vector
 		Vector2 rsv = inputDevice.RightStick;
-		if (Mathf.Approximately (rsv.magnitude, 0)) {
+		if (rsv.magnitude <= 0.4f) {
 			rsv = aimVector;
 		}
 
@@ -200,8 +198,8 @@ public class PlayerObject : MonoBehaviour {
 			//Move the player
 			pos += velocity * Time.deltaTime;
 			this.transform.position = pos;
-	
 		}
+
 		prevGroundLeftCornerPos = curGroundLeftCornerPos;
 		prevGroundRightCornerPos = curGroundRightCornerPos;
 		curGroundLeftCornerPos = getGroundLeftCorner ();
@@ -210,7 +208,6 @@ public class PlayerObject : MonoBehaviour {
 		prevTopRightCornerPos = curTopRightCornerPos;
 		curTopLeftCornerPos = getTopLeftCorner ();
 		curTopRightCornerPos = getTopRightCorner ();
-		hitGroundTimer--;
 	}
 	
 	void OnTriggerEnter(Collider other){
@@ -220,16 +217,12 @@ public class PlayerObject : MonoBehaviour {
 	}
 
 	public void HitGround(){
-		if (hitGroundTimer > 0) {
-			return;
-		}
 		Vector3 groundForce = Vector3.zero;
 		groundForce.y = -velocity.y;
-		//velocity += groundForce;
 		velocity.y = 0.0f;
 		controlledVelocity.y = 0.0f;
 		forcedVelocity.y = 0.0f;
-		hitGroundTimer = 10;
+
 	}
 	
 	void OnTriggerStay(Collider other){
@@ -249,22 +242,20 @@ public class PlayerObject : MonoBehaviour {
 		BulletScript bs = other.GetComponent<BulletScript> ();
 		if(bs && (bs.getPlayerRef() != this)){
 			float pushPullScaling = 5.0f;
-			if(bs.getBulletType() == bulletType.PULL){
+			if(bs.getBulletType() == bulletType.PUSH){
 				Vector3 diff = transform.position - bs.getPlayerRef().transform.position;
 				diff = diff.normalized * pushPullScaling;
-				//this.velocity += new Vector3(diff.x, diff.y, diff.z);
 				forcedVelocity += new Vector3(diff.x, diff.y, diff.z);
 				Destroy(other.gameObject);
 			}
-			else if(bs.getBulletType() == bulletType.PUSH){
+			else if(bs.getBulletType() == bulletType.PULL){
 				Vector3 diff = bs.getPlayerRef().transform.position - transform.position;
 				diff = diff.normalized * pushPullScaling;
-				//this.velocity += new Vector3(diff.x, diff.y * 2, diff.z);
 				forcedVelocity += new Vector3(diff.x, diff.y * 2, diff.z);
 				Destroy(other.gameObject);	
 			}
 			else if(bs.getBulletType() == bulletType.JUMP){
-				this.velocity += new Vector3(0,16,0);
+				forcedVelocity += new Vector3(0,16,0);
 				Destroy(other.gameObject);
 			}
 
@@ -305,8 +296,7 @@ public class PlayerObject : MonoBehaviour {
 		if(leftWallList.Contains(other)){
 			return;
 		}
-		
-		
+
 		float groundYPos = other.transform.position.y + (other.transform.localScale.y / 2.0f * 1);
 		float ceilYPos = other.transform.position.y + (other.transform.localScale.y / 2.0f * -1);
 		
@@ -379,7 +369,7 @@ public class PlayerObject : MonoBehaviour {
 			    || Mathf.Approximately (other.bounds.max.x, this.collider.bounds.min.x)) {
 				return;
 			}
-			//ONLY HIT GROUND IF VEL IS GOING DOWN
+
 			HitGround ();
 			if(!groundList.Contains(other)){
 				groundList.Add(other);
@@ -485,11 +475,7 @@ public class PlayerObject : MonoBehaviour {
 		velocity = Vector3.zero;
 		controlledVelocity = Vector3.zero;
 		forcedVelocity = Vector3.zero;
-
-		hitGroundTimer = 0;
 	}
-
-
 
 	//BOOKKEEPING
 	private Vector3 getGroundLeftCorner(){
