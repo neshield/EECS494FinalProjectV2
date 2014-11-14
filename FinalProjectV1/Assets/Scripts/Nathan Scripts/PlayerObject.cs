@@ -13,7 +13,6 @@ public class PlayerObject : MonoBehaviour {
 	
 	public Vector3 startPosition;
 	public Vector3 velocity;
-	private float jumpSpeed = 18.0f;
 
 	public bool playing;
 	
@@ -44,6 +43,7 @@ public class PlayerObject : MonoBehaviour {
 	Vector3 aimVector;
 
 	bool jumpQueued;
+	bool jumpEnded;
 
 	private int lives;
 
@@ -82,17 +82,20 @@ public class PlayerObject : MonoBehaviour {
 		aimVector.z = 0f;
 
 		jumpQueued = false;
+		jumpEnded = true;
 
 		invincibleCounter = 50;
-		invincible = true;
+		StartCoroutine(setInvincibleTime (1f));
 
 		lives = 3;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (inputDevice.LeftBumper.WasPressed) {
+		if (inputDevice.LeftBumper.IsPressed) {
 			jumpQueued = true;
+		} else {
+			jumpQueued = false;
 		}
 
 		//Get aim vector
@@ -137,10 +140,6 @@ public class PlayerObject : MonoBehaviour {
 
 	}
 
-	public void queueJump(){
-		jumpQueued = true;
-	}
-
 	void FixedUpdate(){
 		if(playing){
 			/*
@@ -159,6 +158,7 @@ public class PlayerObject : MonoBehaviour {
 
 			*/
 			//Handle invincibility
+			/*
 			if(invincible){
 				invincibleCounter--;
 				if(invincibleCounter <= 0){
@@ -167,6 +167,7 @@ public class PlayerObject : MonoBehaviour {
 					invincibleCounter = 100;
 				}
 			}
+			*/
 
 			//Handle the x movement
 			controlledVelocity.x = 6.0f * inputDevice.LeftStickX.Value;
@@ -181,11 +182,11 @@ public class PlayerObject : MonoBehaviour {
 
 			//Handle the y movement / jumping
 			if(jumpQueued && groundList.Count != 0){
-				Jump ();
-				jumpQueued = false;
-			}
-			else{
-				jumpQueued = false;
+				float jumpSpeed = 18.0f;
+				controlledVelocity.y += jumpSpeed;
+			} else if (!jumpQueued && controlledVelocity.y > 5.0f){
+				//This is to have variable jump height if the jump button is held
+				controlledVelocity.y = 5.0f;
 			}
 
 			if(groundList.Count == 0){
@@ -486,7 +487,7 @@ public class PlayerObject : MonoBehaviour {
 	void Respawn(){
 		this.transform.position = spawnPos;
 		RestoreDefaults ();
-		invincible = true;
+		StartCoroutine(setInvincibleTime (2f));
 	}
 	
 	//ACTIONS
@@ -495,11 +496,6 @@ public class PlayerObject : MonoBehaviour {
 		Vector3 theScale = transform.localScale;
 		theScale.x *= -1;
 		transform.localScale = theScale;
-	}
-
-
-	public void Jump(){
-		controlledVelocity.y += jumpSpeed;
 	}
 	
 	public void Reverse(){
@@ -513,6 +509,14 @@ public class PlayerObject : MonoBehaviour {
 		velocity = Vector3.zero;
 		controlledVelocity = Vector3.zero;
 		forcedVelocity = Vector3.zero;
+	}
+
+	IEnumerator setInvincibleTime(float seconds){
+		print ("becoming invincible...");
+		invincible = true;
+		yield return new WaitForSeconds(seconds);
+		invincible = false;
+		print ("No longer invincible");
 	}
 
 	//BOOKKEEPING
