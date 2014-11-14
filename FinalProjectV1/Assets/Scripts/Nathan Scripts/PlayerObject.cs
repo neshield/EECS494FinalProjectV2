@@ -40,7 +40,7 @@ public class PlayerObject : MonoBehaviour {
 	Vector3 prevTopLeftCornerPos;
 	Vector3 prevTopRightCornerPos;
 
-	Vector3 aimVector;
+	public Vector3 aimVector;
 
 	bool jumpQueued;
 	bool jumpEnded;
