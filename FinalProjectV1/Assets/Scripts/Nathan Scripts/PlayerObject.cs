@@ -223,7 +223,13 @@ public class PlayerObject : MonoBehaviour {
 		curTopLeftCornerPos = getTopLeftCorner ();
 		curTopRightCornerPos = getTopRightCorner ();
 	}
-	
+
+	public void resetGround(){
+		groundList.Clear ();
+		leftWallList.Clear ();
+		rightWallList.Clear ();
+	}
+
 	void OnTriggerEnter(Collider other){
 		HandleBulletCollision (other);
 		HandleGroundCollision (other);
