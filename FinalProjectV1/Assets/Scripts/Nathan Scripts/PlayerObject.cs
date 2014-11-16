@@ -5,9 +5,11 @@ using InControl;
 
 
 public class PlayerObject : MonoBehaviour {
+	//Animation Stuff
 	Animator anim;
 	public float move_FSM_val;
 	public bool facingRight;
+	private SpriteRenderer sRenderer;
 
 	public int playerNum;
 	
@@ -84,8 +86,11 @@ public class PlayerObject : MonoBehaviour {
 		jumpQueued = false;
 		jumpEnded = true;
 
+		sRenderer = this.GetComponent<SpriteRenderer> ();
+
 		invincibleCounter = 50;
 		StartCoroutine(setInvincibleTime (1f));
+		StartCoroutine(setFlashingTime(1f));
 
 		lives = 3;
 	}
@@ -112,6 +117,9 @@ public class PlayerObject : MonoBehaviour {
 		
 		aimVector = aimVector * 35.0f;
 
+		Vector3 fireFromPos = this.transform.position;
+		fireFromPos.y += 0.2f;
+
 		//SCOTT AND MATT
 		if(inputDevice.LeftTrigger.WasPressed){
 			currentBullet = Instantiate (bullet) as GameObject;
@@ -122,7 +130,7 @@ public class PlayerObject : MonoBehaviour {
 
 			//canFire = false;
 
-			obj.setPosition(transform.position);
+			obj.setPosition(fireFromPos);
 			obj.setVelocity(aimVector);
 		}
 		else if(inputDevice.RightTrigger.WasPressed){
@@ -134,7 +142,7 @@ public class PlayerObject : MonoBehaviour {
 			obj.setPlayerRef(this);
 			obj.setPush();
 
-			obj.setPosition(transform.position);
+			obj.setPosition(fireFromPos);
 			obj.setVelocity(aimVector);
 		}
 
@@ -494,6 +502,7 @@ public class PlayerObject : MonoBehaviour {
 		this.transform.position = spawnPos;
 		RestoreDefaults ();
 		StartCoroutine(setInvincibleTime (2f));
+		StartCoroutine(setFlashingTime(2f));
 	}
 	
 	//ACTIONS
@@ -518,11 +527,24 @@ public class PlayerObject : MonoBehaviour {
 	}
 
 	IEnumerator setInvincibleTime(float seconds){
-		print ("becoming invincible...");
 		invincible = true;
 		yield return new WaitForSeconds(seconds);
 		invincible = false;
-		print ("No longer invincible");
+	}
+
+	IEnumerator setFlashingTime(float seconds){
+		int iterations = Mathf.RoundToInt(seconds / 0.25f);
+
+		Color normalColor = sRenderer.material.color;
+		Color fadedColor = normalColor;
+		fadedColor.a = 0.4f;
+
+		for(int i = 0; i < iterations; i++){
+			sRenderer.material.color = fadedColor;
+			yield return new WaitForSeconds(0.125f);
+			sRenderer.material.color = normalColor;
+			yield return new WaitForSeconds(0.125f);
+		}
 	}
 
 	//BOOKKEEPING
