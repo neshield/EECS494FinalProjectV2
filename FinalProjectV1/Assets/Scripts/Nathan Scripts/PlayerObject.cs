@@ -68,6 +68,8 @@ public class PlayerObject : MonoBehaviour {
 
 		inputDevice = (InputManager.Devices.Count > playerNum) ? InputManager.Devices[playerNum] : null;
 		if(inputDevice == null){
+			print ("manager m: " + Manager.m);
+			Manager.m.removePlayerGUIs(playerNum);
 			Destroy(this.gameObject);
 		}
 
@@ -97,59 +99,60 @@ public class PlayerObject : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (inputDevice.LeftBumper.IsPressed) {
-			jumpQueued = true;
-		} else {
-			jumpQueued = false;
+		if(Manager.m.canRun){
+			if (inputDevice.LeftBumper.IsPressed) {
+				jumpQueued = true;
+			} else {
+				jumpQueued = false;
+			}
+
+			//Get aim vector
+			Vector2 rsv = inputDevice.RightStick;
+			if (rsv.magnitude <= 0.4f) {
+				rsv = aimVector;
+			}
+
+			aimVector.x = rsv.x;
+			aimVector.y = rsv.y;
+			aimVector.z = 0.0f;
+			
+			aimVector.Normalize();
+			
+			aimVector = aimVector * 35.0f;
+
+			Vector3 fireFromPos = this.transform.position;
+			fireFromPos.y += 0.2f;
+
+			//SCOTT AND MATT
+			if(inputDevice.LeftTrigger.WasPressed){
+				currentBullet = Instantiate (bullet) as GameObject;
+				BulletScript obj = currentBullet.GetComponent<BulletScript>();
+
+				obj.setPlayerRef(this);
+				obj.setPull();
+
+				//canFire = false;
+
+				obj.setPosition(fireFromPos);
+				obj.setVelocity(aimVector);
+			}
+			else if(inputDevice.RightTrigger.WasPressed){
+				currentBullet = Instantiate (bullet) as GameObject;
+				BulletScript obj = currentBullet.GetComponent<BulletScript>();
+
+				print (obj);
+
+				obj.setPlayerRef(this);
+				obj.setPush();
+
+				obj.setPosition(fireFromPos);
+				obj.setVelocity(aimVector);
+			}
 		}
-
-		//Get aim vector
-		Vector2 rsv = inputDevice.RightStick;
-		if (rsv.magnitude <= 0.4f) {
-			rsv = aimVector;
-		}
-
-		aimVector.x = rsv.x;
-		aimVector.y = rsv.y;
-		aimVector.z = 0.0f;
-		
-		aimVector.Normalize();
-		
-		aimVector = aimVector * 35.0f;
-
-		Vector3 fireFromPos = this.transform.position;
-		fireFromPos.y += 0.2f;
-
-		//SCOTT AND MATT
-		if(inputDevice.LeftTrigger.WasPressed){
-			currentBullet = Instantiate (bullet) as GameObject;
-			BulletScript obj = currentBullet.GetComponent<BulletScript>();
-
-			obj.setPlayerRef(this);
-			obj.setPull();
-
-			//canFire = false;
-
-			obj.setPosition(fireFromPos);
-			obj.setVelocity(aimVector);
-		}
-		else if(inputDevice.RightTrigger.WasPressed){
-			currentBullet = Instantiate (bullet) as GameObject;
-			BulletScript obj = currentBullet.GetComponent<BulletScript>();
-
-			print (obj);
-
-			obj.setPlayerRef(this);
-			obj.setPush();
-
-			obj.setPosition(fireFromPos);
-			obj.setVelocity(aimVector);
-		}
-
 	}
 
 	void FixedUpdate(){
-		if(playing){
+		if(playing && Manager.m.canRun){
 			/*
 			//Stuff Used for FSM//////////////////////////////
 			move_FSM_val = inputDevice.LeftStickX.Value;
@@ -468,19 +471,10 @@ public class PlayerObject : MonoBehaviour {
 			//GUIText t = p1Lives.GetComponent<GUIText>();
 			//t.text = "P" + playerNum + " Lives: " + lives;
 			//Die ();
-
+			Manager.m.setPlayerLives(playerNum, lives);
+			
 			if(lives <= 0){
-				switch(Application.loadedLevel){
-				case 0:
-					Application.LoadLevel(2);
-					break;
-				case 1:
-					Application.LoadLevel(0);
-					break;
-				case 2:
-					Application.LoadLevel(1);
-					break;
-				}
+
 			} else {
 				Die();
 			}
