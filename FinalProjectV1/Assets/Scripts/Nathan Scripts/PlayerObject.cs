@@ -494,6 +494,7 @@ public class PlayerObject : MonoBehaviour {
 
 	void Respawn(){
 		this.transform.position = spawnPos;
+		this.transform.position = Manager.m.getRespawnLocation ();
 		RestoreDefaults ();
 		StartCoroutine(setInvincibleTime (2f));
 		StartCoroutine(setFlashingTime(2f));

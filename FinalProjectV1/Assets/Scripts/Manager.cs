@@ -19,6 +19,16 @@ public class Manager : MonoBehaviour {
 		createGUIObjects ();
 	}
 
+	public Vector3 getRespawnLocation(){
+		//get a list of objects that are tagged with respawns
+		GameObject[] respawns;
+		respawns = GameObject.FindGameObjectsWithTag("Respawn");
+
+		int rand = Random.Range (0, respawns.Length - 1);
+
+		return respawns[rand].transform.position;
+	}
+
 	public void setPlayerLives(int playerNum_, int lives_){
 		guiObjs[playerNum_].lives.text = "P" + (playerNum_ + 1) + " Lives: " + lives_;
 
@@ -88,9 +98,10 @@ public class Manager : MonoBehaviour {
 	//make a function to hide a specific players GUI.  can be called from
 	//where the players dissapear if they're not plugged in.
 	public void removePlayerGUIs(int playerNum_){
-
+		print ("Index: " + playerNum_ + " size: " + guiObjs.Count);
 		Destroy (guiObjs [playerNum_].lives);
-		guiObjs.RemoveAt (playerNum_);
+		//don'e need to delete them. just get rid of the lives screen
+		//guiObjs.RemoveAt (playerNum_);
 	}
 
 
