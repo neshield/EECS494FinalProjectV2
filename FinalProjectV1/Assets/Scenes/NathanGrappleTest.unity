@@ -117,6 +117,14 @@ Prefab:
       propertyPath: m_Name
       value: GrapplePlayer0
       objectReference: {fileID: 0}
+    - target: {fileID: 6500000, guid: 1cbe290a133b2024f997b09f4f6171bb, type: 2}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5400000, guid: 1cbe290a133b2024f997b09f4f6171bb, type: 2}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1cbe290a133b2024f997b09f4f6171bb, type: 2}
   m_RootGameObject: {fileID: 859740816}
@@ -379,7 +387,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: .0500000007
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 120
   m_CollisionDetection: 0
@@ -412,7 +420,7 @@ BoxCollider:
   m_PrefabInternal: {fileID: 61218912}
   m_GameObject: {fileID: 859740816}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -454,6 +462,9 @@ MonoBehaviour:
   playerNum: 0
   aimVector: {x: 0, y: 0, z: 0}
   grappleBullet: {fileID: 100000, guid: f05450237e890684891ad7c9cb6b3293, type: 2}
+  forcedVelocity: {x: 0, y: 0, z: 0}
+  controlledVelocity: {x: 0, y: 0, z: 0}
+  rBodyVel: {x: 0, y: 0, z: 0}
 --- !u!1 &1130180882
 GameObject:
   m_ObjectHideFlags: 0
@@ -517,6 +528,91 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
+--- !u!1 &1169938119
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1169938124}
+  - 33: {fileID: 1169938123}
+  - 65: {fileID: 1169938122}
+  - 23: {fileID: 1169938121}
+  - 54: {fileID: 1169938120}
+  m_Layer: 0
+  m_Name: Cube
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!54 &1169938120
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1169938119}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: .0500000007
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!23 &1169938121
+Renderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1169938119}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_LightmapIndex: 255
+  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
+  m_Materials:
+  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 0
+  m_LightProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+--- !u!65 &1169938122
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1169938119}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!33 &1169938123
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1169938119}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1169938124
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1169938119}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -5, z: 0}
+  m_LocalScale: {x: 20, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
 --- !u!1 &1411121439
 GameObject:
   m_ObjectHideFlags: 0
@@ -566,6 +662,9 @@ MonoBehaviour:
   playerNum: 1
   aimVector: {x: 0, y: 0, z: 0}
   grappleBullet: {fileID: 100000, guid: f05450237e890684891ad7c9cb6b3293, type: 2}
+  forcedVelocity: {x: 0, y: 0, z: 0}
+  controlledVelocity: {x: 0, y: 0, z: 0}
+  rBodyVel: {x: 0, y: 0, z: 0}
 --- !u!54 &1411121442
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -578,7 +677,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: .0500000007
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 120
   m_CollisionDetection: 0
@@ -611,7 +710,7 @@ BoxCollider:
   m_PrefabInternal: {fileID: 2030401745}
   m_GameObject: {fileID: 1411121439}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -882,6 +981,14 @@ Prefab:
     - target: {fileID: 12000002, guid: 1cbe290a133b2024f997b09f4f6171bb, type: 2}
       propertyPath: m_Parameters.endWidth
       value: .200000003
+      objectReference: {fileID: 0}
+    - target: {fileID: 5400000, guid: 1cbe290a133b2024f997b09f4f6171bb, type: 2}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6500000, guid: 1cbe290a133b2024f997b09f4f6171bb, type: 2}
+      propertyPath: m_IsTrigger
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1cbe290a133b2024f997b09f4f6171bb, type: 2}

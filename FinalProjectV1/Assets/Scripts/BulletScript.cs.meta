@@ -5,7 +5,7 @@ MonoImporter:
   defaultReferences:
   - pushMat: {fileID: 2100000, guid: b48be6c3fdd3948749124b944de4a997, type: 2}
   - pullMat: {fileID: 2100000, guid: de7e192a17eb64fbb890c85e9ec0955f, type: 2}
-  - jumpMat: {instanceID: 0}
+  - jumpMat: {fileID: 2100000, guid: 2ccbd942c3e584c9c9e7907eaed75e62, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -4,7 +4,7 @@ using InControl;
 
 
 public class SN_playerController : MonoBehaviour {
-	static private float throwAimDuration = 0.75f;
+	static private float throwAimDuration = 0.5f;
 
 
 	//private Vector3 xMovement = new Vector3;
@@ -21,10 +21,12 @@ public class SN_playerController : MonoBehaviour {
 
 	public GameObject grappleBullet;
 
-	private Vector3 forcedVelocity;
+	public Vector3 forcedVelocity;
 	private int forcedVelFrameCounter;
 	private float forcedVelAbsMax;
-	private Vector3 controlledVelocity;
+	public Vector3 controlledVelocity;
+
+	public Vector3 rBodyVel;
 
 	private ThrowLineScript throwLine;
 	private SN_aimController aimLine;
@@ -55,6 +57,7 @@ public class SN_playerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
+		rBodyVel = this.rigidbody.velocity;
 		//GetAiming
 		if(inputDevice!= null){
 			Vector2 rsv = inputDevice.RightStick;
@@ -112,7 +115,7 @@ public class SN_playerController : MonoBehaviour {
 	}
 
 	private void GetThrown(SN_playerController thrower){
-		movementDisabled = true;
+		//movementDisabled = true;
 
 		//This will be "struggle time"
 		//yield return new WaitForSeconds(0.5f);
@@ -124,7 +127,7 @@ public class SN_playerController : MonoBehaviour {
 		throwLine.setThrowerRef (thrower);
 		yield return new WaitForSeconds(throwAimDuration);
 		this.forcedVelocity += 4f * thrower.aimVector;
-		movementDisabled = false;
+		//movementDisabled = false;
 		throwLine.removeThrowerRef ();
 		aimLine.Enable ();
 	}
@@ -136,9 +139,9 @@ public class SN_playerController : MonoBehaviour {
 	IEnumerator whileThrowing(SN_playerController thrown){
 		print (this.gameObject + " is throwing");
 		aimLine.Disable ();
-		movementDisabled = true;
+		//movementDisabled = true;
 		yield return new WaitForSeconds(throwAimDuration);
-		movementDisabled = false;
+		//movementDisabled = false;
 		aimLine.Enable ();
 	}
 

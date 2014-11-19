@@ -15,7 +15,7 @@ public class PlayerSight : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Vector3 AimVec = player.aimVector * 35.0f;
+		Vector3 AimVec = player.aimVector;// * 35.0f;
 		Vector3 playerPos = player.transform.position;
 		playerPos.y += 0.2f;
 		Vector3 lineEndPos = AimVec + playerPos;

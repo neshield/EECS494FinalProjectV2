@@ -118,7 +118,7 @@ public class PlayerObject : MonoBehaviour {
 			
 			aimVector.Normalize();
 			
-			aimVector = aimVector * 35.0f;
+			aimVector = aimVector * 10.0f;
 
 			Vector3 fireFromPos = this.transform.position;
 			fireFromPos.y += 0.2f;
@@ -134,7 +134,7 @@ public class PlayerObject : MonoBehaviour {
 				//canFire = false;
 
 				obj.setPosition(fireFromPos);
-				obj.setVelocity(aimVector);
+				obj.setVelocity(aimVector.normalized * 30f);
 			}
 			else if(inputDevice.RightTrigger.WasPressed){
 				currentBullet = Instantiate (bullet) as GameObject;
@@ -146,7 +146,19 @@ public class PlayerObject : MonoBehaviour {
 				obj.setPush();
 
 				obj.setPosition(fireFromPos);
-				obj.setVelocity(aimVector);
+				obj.setVelocity(aimVector.normalized * 30f);
+			}
+			else if(inputDevice.RightBumper.WasPressed){
+				currentBullet = Instantiate (bullet) as GameObject;
+				BulletScript obj = currentBullet.GetComponent<BulletScript>();
+				
+				print (obj);
+				
+				obj.setPlayerRef(this);
+				obj.setJump();
+				
+				obj.setPosition(fireFromPos);
+				obj.setVelocity(aimVector.normalized * 30f);
 			}
 		}
 	}
@@ -294,7 +306,7 @@ public class PlayerObject : MonoBehaviour {
 				Destroy(other.gameObject);	
 			}
 			else if(bType == bulletType.JUMP){
-				forcedVelocity += new Vector3(0,16,0);
+				this.GetThrown(bs.getPlayerRef());
 				Destroy(other.gameObject);
 			}
 
@@ -593,4 +605,60 @@ public class PlayerObject : MonoBehaviour {
 		// If we hit the collider, point is outside. So we return !hit
 		return !hit;
 	}
+
+
+	//GRAPPLE CODE
+	static private float throwAimDuration = 0.5f;
+	public float throwStrength = 20f;
+
+
+	private void GetThrown(PlayerObject thrower){
+		//movementDisabled = true;
+		
+		//This will be "struggle time"
+		//yield return new WaitForSeconds(0.5f);
+		StartCoroutine(waitForThrow (thrower));
+	}
+	
+	IEnumerator waitForThrow(PlayerObject thrower){
+		//aimLine.Disable ();
+		//throwLine.setThrowerRef (thrower);
+		yield return new WaitForSeconds(throwAimDuration);
+		Vector2 throwerAimVec = thrower.aimVector.normalized;
+		Vector3 throwVector = Vector3.zero;
+		throwVector.x = throwerAimVec.x;
+		throwVector.y = throwerAimVec.y;
+		throwVector.z = 0;
+		this.forcedVelocity += throwStrength * throwVector;
+		//movementDisabled = false;
+		//throwLine.removeThrowerRef ();
+		//aimLine.Enable ();
+	}
+	/*
+	public void throwPlayer(PlayerObject thrown){
+		StartCoroutine(whileThrowing(thrown));
+	}
+	
+	IEnumerator whileThrowing(PlayerObject thrown){
+		print (this.gameObject + " is throwing");
+		aimLine.Disable ();
+		//movementDisabled = true;
+		yield return new WaitForSeconds(throwAimDuration);
+		//movementDisabled = false;
+		aimLine.Enable ();
+	}
+
+
+	void OnTriggerEnter(Collider other){
+		SN_grappleController grapple = other.GetComponent<SN_grappleController> ();
+		if(!grapple){
+			return;
+		}
+		
+		if(grapple.getPlayerRef() != this){
+			GetThrown(grapple.getPlayerRef());
+			grapple.informShooterOnThrowBegin(this);
+		}
+	}
+*/
 }

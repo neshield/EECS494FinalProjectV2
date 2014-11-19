@@ -59,7 +59,7 @@ public class BulletScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		origPosition = transform.position;
-		maxDistance = 80;
+		maxDistance = 10f;
 		lastPosition = transform.position;
 		xDiff = yDiff = 0;
 	}
