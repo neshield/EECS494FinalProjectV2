@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SN_aimController : MonoBehaviour {
+public class ThrowLineScript : MonoBehaviour {
 	private SN_playerController player;
-	
+	private SN_playerController thrower;
 	private LineRenderer line;
 	
 	// Use this for initialization
@@ -15,13 +15,22 @@ public class SN_aimController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Vector3 AimVec = player.aimVector;
-		Vector3 playerPos = player.transform.position;
-		Vector3 lineEndPos = AimVec + playerPos;
-		line.SetVertexCount (2);
-		line.SetPosition (0, playerPos);
-		line.SetPosition (1, lineEndPos);
-		line.enabled = true;
+
+		//YOU BOUT TO GET TOSSSSSEEEDD
+		if (thrower != null) {
+
+		} else {
+
+		}
+
+	
 	}
 
+	void setThrowerRef(SN_playerController thrower_){
+		thrower = thrower_;
+	}
+
+	void removeThrowerRef(){
+		thrower = null;
+	}
 }
