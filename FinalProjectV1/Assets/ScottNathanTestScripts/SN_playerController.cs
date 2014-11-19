@@ -4,6 +4,8 @@ using InControl;
 
 
 public class SN_playerController : MonoBehaviour {
+	static private float throwAimDuration = 0.75f;
+
 
 	//private Vector3 xMovement = new Vector3;
 	public int playerNum;
@@ -24,6 +26,9 @@ public class SN_playerController : MonoBehaviour {
 	private float forcedVelAbsMax;
 	private Vector3 controlledVelocity;
 
+	private ThrowLineScript throwLine;
+	private SN_aimController aimLine;
+
 	// Use this for initialization
 	void Start () {
 		inputDevice = (InputManager.Devices.Count > playerNum) ? InputManager.Devices[playerNum] : null;
@@ -37,6 +42,15 @@ public class SN_playerController : MonoBehaviour {
 		aimVector.z = 0f;
 
 		movementDisabled = false;
+
+		foreach(Transform child in transform){
+			if(throwLine == null){
+				throwLine = child.GetComponent<ThrowLineScript>();
+			}
+			if(aimLine == null){
+				aimLine = child.GetComponent<SN_aimController>();
+			}
+		}
 	}
 	
 	// Update is called once per frame
@@ -55,7 +69,6 @@ public class SN_playerController : MonoBehaviour {
 			aimVector.Normalize();
 			
 			aimVector = aimVector * sightLength;
-
 
 			//GetMovement
 			Vector2 lsv = inputDevice.LeftStick;
@@ -80,7 +93,6 @@ public class SN_playerController : MonoBehaviour {
 		}
 
 		this.transform.position += (controlledVelocity + forcedVelocity) * Time.fixedDeltaTime;
-
 	}
 
 	void Update(){
@@ -104,14 +116,30 @@ public class SN_playerController : MonoBehaviour {
 
 		//This will be "struggle time"
 		//yield return new WaitForSeconds(0.5f);
-		StartCoroutine(waitForThrow (0.5f, thrower));
+		StartCoroutine(waitForThrow (thrower));
 	}
 
-	IEnumerator waitForThrow(float seconds, SN_playerController thrower){
-		yield return new WaitForSeconds(seconds);
-		this.forcedVelocity += 5f * thrower.aimVector;
-		print ("Getting thrown with vel: " + this.forcedVelocity);
+	IEnumerator waitForThrow(SN_playerController thrower){
+		aimLine.Disable ();
+		throwLine.setThrowerRef (thrower);
+		yield return new WaitForSeconds(throwAimDuration);
+		this.forcedVelocity += 4f * thrower.aimVector;
 		movementDisabled = false;
+		throwLine.removeThrowerRef ();
+		aimLine.Enable ();
+	}
+
+	public void throwPlayer(SN_playerController thrown){
+		StartCoroutine(whileThrowing(thrown));
+	}
+
+	IEnumerator whileThrowing(SN_playerController thrown){
+		print (this.gameObject + " is throwing");
+		aimLine.Disable ();
+		movementDisabled = true;
+		yield return new WaitForSeconds(throwAimDuration);
+		movementDisabled = false;
+		aimLine.Enable ();
 	}
 
 	void OnTriggerEnter(Collider other){
@@ -120,10 +148,10 @@ public class SN_playerController : MonoBehaviour {
 			return;
 		}
 
-		print ("Entering trigger... playerRef = " + grapple.getPlayerRef());
-
 		if(grapple.getPlayerRef() != this){
 			GetThrown(grapple.getPlayerRef());
+			grapple.informShooterOnThrowBegin(this);
 		}
 	}
+	
 }
