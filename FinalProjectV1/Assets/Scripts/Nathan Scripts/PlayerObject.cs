@@ -279,18 +279,18 @@ public class PlayerObject : MonoBehaviour {
 				return;
 			}
 
-			float pushPullScaling = 5.0f;
+			float pushPullScaling = 7.0f;
 
 			if(bType == bulletType.PUSH){
 				Vector3 diff = transform.position - bs.getPlayerRef().transform.position;
 				diff = diff.normalized * pushPullScaling;
-				forcedVelocity += new Vector3(diff.x, diff.y, diff.z);
+				forcedVelocity += new Vector3(diff.x, diff.y * 4, diff.z);
 				Destroy(other.gameObject);
 			}
 			else if(bType == bulletType.PULL){
 				Vector3 diff = bs.getPlayerRef().transform.position - transform.position;
 				diff = diff.normalized * pushPullScaling;
-				forcedVelocity += new Vector3(diff.x, diff.y * 2, diff.z);
+				forcedVelocity += new Vector3(diff.x, diff.y * 6 + -(playerGravity.y), diff.z);
 				Destroy(other.gameObject);	
 			}
 			else if(bType == bulletType.JUMP){
