@@ -25,6 +25,9 @@ public class SN_playerController : MonoBehaviour {
 	private int forcedVelFrameCounter;
 	private float forcedVelAbsMax;
 	public Vector3 controlledVelocity;
+	private Vector2 blinkVector;
+	private int blinkScalar = 1;
+	private bool fast = false;
 
 	public Vector3 rBodyVel;
 
@@ -75,10 +78,30 @@ public class SN_playerController : MonoBehaviour {
 
 			//GetMovement
 			Vector2 lsv = inputDevice.LeftStick;
+			blinkVector = inputDevice.LeftStick;
+			blinkVector.Normalize();
 			lsv = lsv * playerMaxSpeed;
-			controlledVelocity.x = lsv.x;
-			controlledVelocity.y = lsv.y;
-			controlledVelocity.z = 0f;
+			if(fast){
+				controlledVelocity.x = 2 * lsv.x;
+				controlledVelocity.y = 2 * lsv.y;
+				controlledVelocity.z = 0f;
+			}
+			else{
+				controlledVelocity.x = lsv.x;
+				controlledVelocity.y = lsv.y;
+				controlledVelocity.z = 0f;
+			}
+		}
+
+		//Blink, obviously needs a time restriction between uses
+		if (inputDevice.Action1.WasPressed) {
+			this.transform.position.x += blinkScalar * blinkVector.x;
+			this.transform.position.y += blinkScalar * blinkVector.y;
+		}
+
+		//SuperSpeed, obviously needs a limit also
+		if (inputDevice.Action2.WasPressed) {
+			StartCoroutine(setSpeedTime(3f));		
 		}
 
 		//Decay forcedVelocity
@@ -155,6 +178,12 @@ public class SN_playerController : MonoBehaviour {
 			GetThrown(grapple.getPlayerRef());
 			grapple.informShooterOnThrowBegin(this);
 		}
+	}
+
+	IEnumerator setSpeedTime(float seconds){
+		fast = true;
+		yield return new WaitForSeconds(seconds);
+		fast = false;
 	}
 	
 }
