@@ -6,6 +6,7 @@ using InControl;
 public class SN_playerController : PlayerBaseClass {
 	static private float throwAimDuration = 0.5f;
 
+	private Vector3 spawnPos;
 
 	//private Vector3 xMovement = new Vector3;
 	public int playerNum;
@@ -13,7 +14,7 @@ public class SN_playerController : PlayerBaseClass {
 	private float playerMaxSpeed = 7.5f;
 
 	public Vector3 aimVector;
-	private float sightLength = 4.0f;
+	private float sightLength = 5.0f;
 
 	private bool movementDisabled;
 
@@ -34,9 +35,14 @@ public class SN_playerController : PlayerBaseClass {
 	private ThrowLineScript throwLine;
 	private SN_aimController aimLine;
 
+	public int points;
+
 	// Use this for initialization
 	void Start () {
+		print (InputManager.Devices.Count);
 		inputDevice = (InputManager.Devices.Count > playerNum) ? InputManager.Devices[playerNum] : null;
+		print ("Assigning input device... player num: " + playerNum);
+		spawnPos = this.transform.position;
 
 		controlledVelocity = Vector3.zero;
 		forcedVelocity = Vector3.zero;
@@ -45,6 +51,8 @@ public class SN_playerController : PlayerBaseClass {
 		aimVector.x = 0f;
 		aimVector.y = 0f;
 		aimVector.z = 0f;
+
+		points = 0;
 
 		movementDisabled = false;
 
@@ -132,13 +140,14 @@ public class SN_playerController : PlayerBaseClass {
 				}
 		if (inputDevice.RightTrigger.WasPressed) {
 			currentBullet = Instantiate (grappleBullet) as GameObject;
+
 			SN_grappleController obj = currentBullet.GetComponent<SN_grappleController>();
 			
 			obj.setShooterRef(this);
 			//canFire = false;
 			
 			obj.setPosition(this.transform.position);
-			obj.setVelocity(aimVector * 3.0f);
+			obj.setVelocity(aimVector * 4.0f);
 		}
 	}
 
@@ -173,9 +182,27 @@ public class SN_playerController : PlayerBaseClass {
 		aimLine.Enable ();
 	}
 
+	//void OnCollisionEnter(Collision otherC){
+	//	Collider other = otherC.collider;
+	void OnTriggerStay(Collider other){
+		HillScript hs = other.GetComponent<HillScript> ();
+		if(hs){
+			points++;
+		}
+	}
+
 	void OnTriggerEnter(Collider other){
+		if (other.gameObject.tag == "spike") {
+			this.transform.position = spawnPos;
+			this.rigidbody.velocity = new Vector3(0,0,0);
+			this.forcedVelocity = Vector3.zero;
+			this.controlledVelocity = Vector3.zero;
+			return;
+		}
+
 		SN_grappleController grapple = other.GetComponent<SN_grappleController> ();
-		if(!grapple){
+		print ("Player is colliding with: " + grapple);
+		if(!grapple || grapple.getPlayerRef() == this){
 			return;
 		}
 
@@ -190,5 +217,11 @@ public class SN_playerController : PlayerBaseClass {
 		yield return new WaitForSeconds(seconds);
 		fast = false;
 	}
-	
+
+	void OnCollisionExit(Collision coll){
+		if (coll.gameObject.layer == 11) {
+			this.rigidbody.velocity = new Vector3(0,0,0);		
+		}
+	}
+
 }

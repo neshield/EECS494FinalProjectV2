@@ -17,7 +17,7 @@ public class TunnelScript : MonoBehaviour {
 	
 	}
 
-	void OnTriggerEnter(Collider other){
+	public void MovePlayer(Collider other){
 		PlayerObject pon = other.GetComponent<PlayerObject> ();
 		BulletScript bs = other.GetComponent<BulletScript> ();
 

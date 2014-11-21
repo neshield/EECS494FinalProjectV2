@@ -37,7 +37,7 @@ public class SN_grappleController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		Vector3 distTraveled = startPos - this.transform.position;
-		if(distTraveled.magnitude > 4.0f){
+		if(distTraveled.magnitude > 5.0f){
 			Destroy(this.gameObject);
 		}
 	}
