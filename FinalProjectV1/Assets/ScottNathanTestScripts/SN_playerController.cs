@@ -3,7 +3,7 @@ using System.Collections;
 using InControl;
 
 
-public class SN_playerController : MonoBehaviour {
+public class SN_playerController : PlayerBaseClass {
 	static private float throwAimDuration = 0.5f;
 
 
