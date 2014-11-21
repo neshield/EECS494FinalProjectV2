@@ -7,8 +7,10 @@ public class HillScript : MonoBehaviour {
 	List<int> playerScoreTicks = new List<int>();
 	List<PlayerBaseClass> playerObjectList = new List<PlayerBaseClass> ();
 
+
 	// Use this for initialization
 	void Start () {
+		/*
 		for(int i=0; i < 4; i++){
 			playerScores.Add (0);
 			playerScoreTicks.Add (0);
@@ -25,7 +27,7 @@ public class HillScript : MonoBehaviour {
 						print ("player exists...");
 				}
 
-		/*
+
 		foreach (GameObject player in players) {
 			print (player);
 			SN_playerController snpc = player.GetComponent<SN_playerController>();
@@ -40,11 +42,12 @@ public class HillScript : MonoBehaviour {
 				}
 			}
 		}
-		*/
+
 
 		for(int i=0; i < playerObjectList.Capacity; i++){
 			print (playerObjectList[i]);
 		}
+		*/
 	}
 	
 	// Update is called once per frame

@@ -10,7 +10,7 @@ public class SN_playerController : PlayerBaseClass {
 	//private Vector3 xMovement = new Vector3;
 	public int playerNum;
 	private InputDevice inputDevice;
-	private float playerMaxSpeed = 5f;
+	private float playerMaxSpeed = 7.5f;
 
 	public Vector3 aimVector;
 	private float sightLength = 4.0f;
@@ -26,7 +26,7 @@ public class SN_playerController : PlayerBaseClass {
 	private float forcedVelAbsMax;
 	public Vector3 controlledVelocity;
 	private Vector2 blinkVector;
-	private int blinkScalar = 1;
+	private float blinkScalar = 2.5f;
 	private bool fast = false;
 
 	public Vector3 rBodyVel;
@@ -82,8 +82,8 @@ public class SN_playerController : PlayerBaseClass {
 			blinkVector.Normalize();
 			lsv = lsv * playerMaxSpeed;
 			if(fast){
-				controlledVelocity.x = 2 * lsv.x;
-				controlledVelocity.y = 2 * lsv.y;
+				controlledVelocity.x = 1.75f * lsv.x;
+				controlledVelocity.y = 1.75f * lsv.y;
 				controlledVelocity.z = 0f;
 			}
 			else{
@@ -91,17 +91,22 @@ public class SN_playerController : PlayerBaseClass {
 				controlledVelocity.y = lsv.y;
 				controlledVelocity.z = 0f;
 			}
-		}
 
-		//Blink, obviously needs a time restriction between uses
-		if (inputDevice.Action1.WasPressed) {
-			this.transform.position.x += blinkScalar * blinkVector.x;
-			this.transform.position.y += blinkScalar * blinkVector.y;
-		}
-
-		//SuperSpeed, obviously needs a limit also
-		if (inputDevice.Action2.WasPressed) {
-			StartCoroutine(setSpeedTime(3f));		
+			//Blink, obviously needs a time restriction between uses
+			if (inputDevice.Action1.WasPressed) {
+				Vector3 blinkV3;
+				blinkV3.x = blinkScalar  * blinkVector.x;
+				blinkV3.y = blinkScalar * blinkVector.y;
+				blinkV3.z = 0f;
+				
+				Vector3 newPos = this.transform.position + blinkV3;
+				this.transform.position = newPos;
+			}
+			
+			//SuperSpeed, obviously needs a limit also
+			if (inputDevice.Action2.WasPressed) {
+				StartCoroutine(setSpeedTime(1.25f));		
+			}
 		}
 
 		//Decay forcedVelocity
