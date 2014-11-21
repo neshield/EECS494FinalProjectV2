@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using InControl;
 
 
-public class PlayerObject : MonoBehaviour {
+public class PlayerObject : PlayerBaseClass {
 	//Animation Stuff
 	Animator anim;
 	public float move_FSM_val;
