@@ -5,6 +5,7 @@ using InControl;
 
 
 public class PlayerObjectOld : PlayerBaseClass {
+	/*
 	//Animation Stuff
 	Animator anim;
 	public float move_FSM_val;
@@ -190,7 +191,7 @@ public class PlayerObjectOld : PlayerBaseClass {
 					invincibleCounter = 100;
 				}
 			}
-			*/
+
 
 			//Handle the x movement
 			controlledVelocity.x = 6.0f * inputDevice.LeftStickX.Value;
